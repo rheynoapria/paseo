@@ -35,6 +35,12 @@ export interface AgentListItem {
   status: string;
   cwd: string;
   created: string;
+  // ENLABS: for the dashboard's Home (Workbench sessions): whether a session waits on the owner and why, how many
+  // permission requests are open, and when it last changed. JSON output only (no table columns).
+  updatedAt?: string;
+  requiresAttention?: boolean;
+  attentionReason?: string | null;
+  pendingPermissions?: number;
 }
 
 /** Helper to get relative time string */
@@ -101,6 +107,10 @@ function toListItem(agent: AgentSnapshotPayload): AgentListItem {
     status: agent.status,
     cwd: shortenPath(agent.cwd),
     created: relativeTime(agent.createdAt),
+    updatedAt: agent.updatedAt,
+    requiresAttention: agent.requiresAttention ?? false,
+    attentionReason: agent.attentionReason ?? null,
+    pendingPermissions: agent.pendingPermissions?.length ?? 0,
   };
 }
 
