@@ -65,6 +65,7 @@ import { useComposerHeight } from "./height";
 import { ComposerInputPresentation } from "./presentation";
 import { resolveComposerInputMode, type ComposerInputMode } from "@/composer/input-mode";
 import type { NativePastedFile } from "@/composer/native-pasted-image";
+import { hasCoarsePointer } from "@/enlabs/touch";
 import {
   EditingTextInput,
   type EditingTextInputHandle as ComposerTextInputHandle,
@@ -1721,7 +1722,7 @@ export const MessageInput = forwardRef<MessageInputRef, MessageInputProps>(
     );
 
     const shouldHandleWebKeyPress = isWeb;
-    const shouldSubmitOnEnter = isWeb && !isCompact;
+    const shouldSubmitOnEnter = isWeb && !isCompact && !hasCoarsePointer();
 
     const handleDesktopKeyPress = useCallback(
       (event: WebTextInputKeyPressEvent) => {
